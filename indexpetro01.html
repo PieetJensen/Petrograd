@@ -48,7 +48,7 @@
 
 	<body>
 		<h1>My site</h1>
-        <nav></nav>
+        <nav><a href="#" id="all">All</a></nav>
 		<main></main>
 		<template id="myTemp">
 			<article>
@@ -63,9 +63,12 @@
 			const template = document.querySelector("#myTemp").content;
 			const main = document.querySelector("main");
 			const nav = document.querySelector("nav");
+            const allLink = document.querySelector("#all");
 			const productlistLink = "http://kea-alt-del.dk/t5/api/productlist";
             const catLink = "http://kea-alt-del.dk/t5/api/categories";
             const imgLink = "https://kea-alt-del.dk/t5/site/imgs/";
+
+            allLink.addEventListener("click", ()=>showCategory("all"));
 
             fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
 
@@ -91,7 +94,7 @@
             function showCategory(category){
                 console.log(category)
                 document.querySelectorAll("main section").forEach(section=>{
-                    if(section.id == category){
+                    if(section.id == category || category == "all"){
                         section.style.display="grid";
                         section.previousElementSibling.style.display="block";
                     }else{
