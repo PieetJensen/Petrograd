@@ -43,19 +43,55 @@
                 padding: 1em;
                 text-decoration: none;
             }
+            button{
+                cursor: pointer;
+            }
+            .modal-bg{
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background-color: rgba(0,0,0,.8);
+            }
+            .modal-content{
+                background-color: white;
+                width: 80%;
+                height: 80%;
+                margin: auto;
+                margin-top: 5%;
+            }
+            .hide{
+                display: none;
+            }
 		</style>
 	</head>
 
 	<body>
 		<h1>My site</h1>
-        <nav><a href="#" id="all">All</a></nav>
+
+        <nav>
+            <a href="#" id="all">All</a>
+        </nav>
+
 		<main></main>
+
+        <div class="modal-bg hide">
+            <article class="modal-content">
+            <button>close</button>
+                <h1>NAME</h1>
+                <img>
+                <p>LONG DESCR.</p>
+            </article>
+        </div>
+
 		<template id="myTemp">
 			<article>
+                <img src="IMG" alt="IMG">
 				<h1>NAME</h1>
 				<h2>PRICE</h2>
-				<img src="IMG" alt="IMG">
 				<p class="vegetarian">This product is vegetarian</p>
+                <button>See more</button>
 			</article>
 		</template>
 
@@ -63,11 +99,19 @@
 			const template = document.querySelector("#myTemp").content;
 			const main = document.querySelector("main");
 			const nav = document.querySelector("nav");
-            const allLink = document.querySelector("#all");
+
+			const modal = document.querySelector(".modal-bg");
+
+            modal.addEventListener("click", ()=>modal.classList.add("hide"));
+
 			const productlistLink = "http://kea-alt-del.dk/t5/api/productlist";
             const catLink = "http://kea-alt-del.dk/t5/api/categories";
+
+            const productLink = "http://kea-alt-del.dk/t5/api/product?id=";
+
             const imgLink = "https://kea-alt-del.dk/t5/site/imgs/";
 
+            const allLink = document.querySelector("#all");
             allLink.addEventListener("click", ()=>showCategory("all"));
 
             fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
@@ -75,13 +119,15 @@
 			function createCatSections(categories){
 				console.log(categories);
                 categories.forEach(cat=>{
-                    const newSection = document.createElement("section");
-                    const newHeader = document.createElement("h2");
+
                     const newA = document.createElement("a");
                     newA.textContent=cat;
                     newA.href="#";
                     newA.addEventListener("click", ()=>showCategory(cat));
                     nav.appendChild(newA)
+
+                    const newSection = document.createElement("section");
+                    const newHeader = document.createElement("h2");
                     newSection.id=cat;
                     newHeader.textContent=cat;
                     main.appendChild(newHeader);
@@ -104,10 +150,21 @@
                 })
             }
 
+            function showDetails(product){
+                console.log(product);
+                modal.querySelector("h1").textContent=product.name;
+                modal.classList.remove("hide");
+            }
+
             function showData(product){
                 const section = document.querySelector("#"+product.category)
                 let clone = template.cloneNode(true);
                 clone.querySelector("h1").textContent=product.name;
+
+                clone.querySelector("button").addEventListener("click", ()=>{
+                    fetch(productLink+product.id).then(e=>e.json()).then(data=>showDetails(data));
+                });
+
                 clone.querySelector("h2").textContent=product.price;
                 clone.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
                 clone.querySelector("img").alt=product.image;
