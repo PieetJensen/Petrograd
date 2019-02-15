@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Petrograd</title>
+		<link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/styles.css">
+	</head>
+
+	<body>
+		<nav>
+			<a href="index.html">Petrograd</a>
+			<a href="#">About</a>
+			<a href="#">Menu</a>
+			<a href="#">Reserve</a>
+		</nav>
+		<header>
+			<img class="logo" src="images/logo.png">
+		</header>
+		<main>
+			<p id="target">loading...</p>
+		</main>
+		<div class="modal hide">
+			<div class="modal-content">
+				<h3 class="modal-name">data-name</h3>
+				<img class="modal-image" src="data-img" alt="data-caption">
+				<p class="modal-description">data-longdescription</p>
+				<h4 class="modal-price">data-price</h4>
+				<h4 class="modal-discount">data-discount</h4>
+				<button>Close</button>
+			</div>
+		</div>
+		<template class="category">
+			<h1 class="page-header">data-category</h1>
+		</template>
+		<template class="product">
+			<div class="list-product">
+				<a href="#">
+					<img class="product-small-img" src="data-small-img" alt="data-caption">
+				</a>
+				<h3 class="name">data-name</h3>
+				<h4 class="price">data-price</h4>
+				<h4 class="discount">data-discount</h4>
+				<button>details</button>
+			</div>
+		</template>
+		<script src="js/lazy.js"></script>
+	</body>
+</html>
