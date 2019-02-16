@@ -85,6 +85,7 @@
                 <img>
                 <h1>NAME</h1>
                 <p>LONG DESCR.</p>
+                <p><span class="price">PRICE</span> kr.</p>
             </article>
         </div>
 
@@ -156,6 +157,8 @@
                 modal.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
                 modal.querySelector("h1").textContent=product.name;
                 modal.querySelector("p").textContent=product.longdescription;
+                modal.querySelector(".price").textContent=product.price-(product.price*product.discount/100);
+                modal.querySelector("img").src=imgLink+"medium/"+product.image+"-md.jpg";
                 modal.classList.remove("hide");
             }
 
@@ -169,7 +172,7 @@
                 });
 
                 clone.querySelector("h2").textContent=product.price;
-                clone.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
+                clone.querySelector("img").src=imgLink+"small/" + product.image + "-sm.jpg";
                 clone.querySelector("img").alt=product.image;
                 if(product.vegetarian == false){
                     clone.querySelector(".vegetarian").remove()
