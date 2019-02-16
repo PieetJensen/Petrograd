@@ -1,0 +1,58 @@
+	<style>
+			img{
+				width: 100%;
+			}
+			body{
+				max-width: 1000px;
+				margin: auto;
+				background-color: #f2e4d7;
+				color: #29484b;
+			}
+			h1, h2, h3, h4, p, nav{
+				font-family: 'Russo One', sans-serif;
+				font-weight: normal;
+                text-transform: capitalize;
+			}
+			section{
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				grid-gap: 1em;
+			}
+			article{
+				padding: 1em;
+				border: 1px solid;
+				position: relative;
+			}
+			.soldout *:not(.overlay) {
+				opacity: 0.5;
+			}
+			.overlay {
+				position: absolute;
+				top:0;
+				right:0;
+			}
+            nav a{
+                padding: 1em;
+                text-decoration: none;
+            }
+            button{
+                cursor: pointer;
+            }
+            .modal-bg{
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background-color: rgba(0,0,0,.8);
+            }
+            .modal-content{
+                background-color: white;
+                width: 80%;
+                height: 80%;
+                margin: auto;
+                margin-top: 5%;
+            }
+            .hide{
+                display: none;
+            }

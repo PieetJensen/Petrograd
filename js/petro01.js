@@ -1,122 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Petrograd</title>
-		<link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet" type="text/css">
-		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-		<style>
-			article img{
-				width: 100%;
-			}
-
-            .modal-content img{
-                width: auto;
-                float: right;
-            }
-			body{
-				max-width: 1000px;
-				margin: auto;
-				background-color: #f2e4d7;
-				color: #29484b;
-			}
-			h1, h2, h3, h4, p, nav{
-				font-family: 'Russo One', sans-serif;
-				font-weight: normal;
-                text-transform: capitalize;
-			}
-			section{
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-				grid-gap: 1em;
-			}
-			article{
-				padding: 1em;
-				border: 1px solid;
-				position: relative;
-			}
-			.soldout *:not(.overlay) {
-				opacity: 0.5;
-			}
-			.overlay {
-				position: absolute;
-				top:0;
-				right:0;
-			}
-            nav a{
-                padding: 1em;
-                text-decoration: none;
-            }
-            button{
-                cursor: pointer;
-            }
-            .modal-bg{
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                width: 100%;
-                background-color: rgba(0,0,0,.8);
-            }
-            .modal-content{
-                background-color: white;
-                width: 80%;
-                height: 80%;
-                margin: auto;
-                margin-top: 5%;
-            }
-            .hide{
-                display: none;
-            }
-		</style>
-	</head>
-
-	<body>
-		<h1>My site</h1>
-        <nav>
-            <a href="#" id="all">All</a>
-        </nav>
-		<main></main>
-
-        <div class="modal-bg hide">
-            <article class="modal-content">
-                <button>close</button>
-                <img>
-                <h1>NAME</h1>
-                <p>LONG DESCR.</p>
-            </article>
-        </div>
-
-		<template id="myTemp">
-			<article>
-                <img src="IMG" alt="IMG">
-				<h1>NAME</h1>
-				<h2>PRICE</h2>
-				<p class="vegetarian">This product is vegetarian</p>
-                <button>See more</button>
-			</article>
-		</template>
-
-		<script>
-            //select DOM elements
 			const template = document.querySelector("#myTemp").content;
 			const main = document.querySelector("main");
 			const nav = document.querySelector("nav");
+
 			const modal = document.querySelector(".modal-bg");
-            const allLink = document.querySelector("#all");
 
-            //make shortcuts to API endpoints
-			const productlistLink = "http://kea-alt-del.dk/t5/api/productlist";
-            const catLink = "http://kea-alt-del.dk/t5/api/categories";
-            const productLink = "http://kea-alt-del.dk/t5/api/product?id=";
-            const imgLink = "https://kea-alt-del.dk/t5/site/imgs/";
-
-            //add global eventListeners
-            allLink.addEventListener("click", ()=>showCategory("all"));
             modal.addEventListener("click", ()=>modal.classList.add("hide"));
 
-            //define functions
+			const productlistLink = "http://kea-alt-del.dk/t5/api/productlist";
+            const catLink = "http://kea-alt-del.dk/t5/api/categories";
+
+            const productLink = "http://kea-alt-del.dk/t5/api/product?id=";
+
+            const imgLink = "https://kea-alt-del.dk/t5/site/imgs/";
+
+            const allLink = document.querySelector("#all");
+            allLink.addEventListener("click", ()=>showCategory("all"));
+
+            fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
+
 			function createCatSections(categories){
 				console.log(categories);
                 categories.forEach(cat=>{
@@ -153,9 +54,7 @@
 
             function showDetails(product){
                 console.log(product);
-                modal.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
                 modal.querySelector("h1").textContent=product.name;
-                modal.querySelector("p").textContent=product.longdescription;
                 modal.classList.remove("hide");
             }
 
@@ -184,10 +83,5 @@
                     article.appendChild(message)
                 }
                 section.appendChild(clone);
-            }
 
-            //start generating the output by fetching the categories
-            fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
-		</script>
-	</body>
-</html>
+            }
