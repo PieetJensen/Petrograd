@@ -7,9 +7,14 @@
 		<link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 		<style>
-			img{
+			article img{
 				width: 100%;
 			}
+
+            .modal-content img{
+                width: auto;
+                float: right;
+            }
 			body{
 				max-width: 1000px;
 				margin: auto;
@@ -29,7 +34,7 @@
 			article{
 				padding: 1em;
 				border: 1px solid;
-				position:relative;
+				position: relative;
 			}
 			.soldout *:not(.overlay) {
 				opacity: 0.5;
@@ -69,19 +74,18 @@
 
 	<body>
 		<h1>My site</h1>
-
         <nav>
             <a href="#" id="all">All</a>
         </nav>
-
 		<main></main>
 
         <div class="modal-bg hide">
             <article class="modal-content">
-            <button>close</button>
-                <h1>NAME</h1>
+                <button>close</button>
                 <img>
+                <h1>NAME</h1>
                 <p>LONG DESCR.</p>
+                <p><span class="price">PRICE</span> kr.</p>
             </article>
         </div>
 
@@ -96,26 +100,24 @@
 		</template>
 
 		<script>
+            //select DOM elements
 			const template = document.querySelector("#myTemp").content;
 			const main = document.querySelector("main");
 			const nav = document.querySelector("nav");
-
 			const modal = document.querySelector(".modal-bg");
+            const allLink = document.querySelector("#all");
 
-            modal.addEventListener("click", ()=>modal.classList.add("hide"));
-
+            //make shortcuts to API endpoints
 			const productlistLink = "http://kea-alt-del.dk/t5/api/productlist";
             const catLink = "http://kea-alt-del.dk/t5/api/categories";
-
             const productLink = "http://kea-alt-del.dk/t5/api/product?id=";
-
             const imgLink = "https://kea-alt-del.dk/t5/site/imgs/";
 
-            const allLink = document.querySelector("#all");
+            //add global eventListeners
             allLink.addEventListener("click", ()=>showCategory("all"));
+            modal.addEventListener("click", ()=>modal.classList.add("hide"));
 
-            fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
-
+            //define functions
 			function createCatSections(categories){
 				console.log(categories);
                 categories.forEach(cat=>{
@@ -152,7 +154,11 @@
 
             function showDetails(product){
                 console.log(product);
+                modal.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
                 modal.querySelector("h1").textContent=product.name;
+                modal.querySelector("p").textContent=product.longdescription;
+                modal.querySelector(".price").textContent=product.price-(product.price*product.discount/100);
+                modal.querySelector("img").src=imgLink+"medium/"+product.image+"-md.jpg";
                 modal.classList.remove("hide");
             }
 
@@ -166,7 +172,7 @@
                 });
 
                 clone.querySelector("h2").textContent=product.price;
-                clone.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
+                clone.querySelector("img").src=imgLink+"small/" + product.image + "-sm.jpg";
                 clone.querySelector("img").alt=product.image;
                 if(product.vegetarian == false){
                     clone.querySelector(".vegetarian").remove()
@@ -181,9 +187,10 @@
                     article.appendChild(message)
                 }
                 section.appendChild(clone);
-
             }
 
+            //start generating the output by fetching the categories
+            fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
 		</script>
 	</body>
 </html>
