@@ -7,24 +7,30 @@
 		<link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 		<style>
+			body{
+                --main-font: serif;
+                --main-color: green;
+				width: 1000px;
+				margin: auto;
+				background-color: #f2e4d7;
+			}
+
 			article img{
 				width: 100%;
 			}
 
+            .vegetarian{
+                font-family: var(--main-font);
+            }
             .modal-content img{
                 width: auto;
                 float: right;
             }
-			body{
-				max-width: 1000px;
-				margin: auto;
-				background-color: #f2e4d7;
-				color: #29484b;
-			}
 			h1, h2, h3, h4, p, nav{
-				font-family: 'Russo One', sans-serif;
+				font-family: var(--main-font), sans-serif;
 				font-weight: normal;
                 text-transform: capitalize;
+                color: var(--main-color);
 			}
 			section{
 				display: grid;
@@ -45,6 +51,7 @@
 				right:0;
 			}
             nav a{
+                font-family: var(--main-font);
                 padding: 1em;
                 text-decoration: none;
             }
