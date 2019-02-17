@@ -9,7 +9,7 @@
 		<style>
 			body{
                 --main-font: serif;
-                --main-color: green;
+                --main-color: blue;
 				width: calc(100% - 5em);
 				margin: auto;
 				background-color: #f2e4d7;
@@ -21,10 +21,12 @@
 
             .vegetarian{
                 font-family: var(--main-font);
+                --main-color: green;
             }
             .modal-content img{
-                width: auto;
+                width:inherit;
                 float: right;
+
             }
 			h1, h2, h3, h4, p, nav{
 				font-family: var(--main-font), sans-serif;
@@ -47,8 +49,15 @@
 			}
 			.overlay {
 				position: absolute;
-				top:0;
-				right:0;
+				top: 5%;
+				right: 5%;
+                transform: rotate(45deg);
+                background: red;
+                padding: .5em;
+                font-family: Roboto;
+                font-weight: 900;
+                color: white;
+
 			}
             nav a{
                 font-family: var(--main-font);
