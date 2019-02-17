@@ -1,23 +1,21 @@
+            //select DOM elements
 			const template = document.querySelector("#myTemp").content;
 			const main = document.querySelector("main");
 			const nav = document.querySelector("nav");
-
 			const modal = document.querySelector(".modal-bg");
+            const allLink = document.querySelector("#all");
 
-            modal.addEventListener("click", ()=>modal.classList.add("hide"));
-
+            //make shortcuts to API endpoints
 			const productlistLink = "http://kea-alt-del.dk/t5/api/productlist";
             const catLink = "http://kea-alt-del.dk/t5/api/categories";
-
             const productLink = "http://kea-alt-del.dk/t5/api/product?id=";
-
             const imgLink = "https://kea-alt-del.dk/t5/site/imgs/";
 
-            const allLink = document.querySelector("#all");
+            //add global eventListeners
             allLink.addEventListener("click", ()=>showCategory("all"));
+            modal.addEventListener("click", ()=>modal.classList.add("hide"));
 
-            fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
-
+            //define functions
 			function createCatSections(categories){
 				console.log(categories);
                 categories.forEach(cat=>{
@@ -54,7 +52,11 @@
 
             function showDetails(product){
                 console.log(product);
+                modal.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
                 modal.querySelector("h1").textContent=product.name;
+                modal.querySelector("p").textContent=product.longdescription;
+                modal.querySelector(".price").textContent=product.price-(product.price*product.discount/100);
+                modal.querySelector("img").src=imgLink+"medium/"+product.image+"-md.jpg";
                 modal.classList.remove("hide");
             }
 
@@ -68,7 +70,7 @@
                 });
 
                 clone.querySelector("h2").textContent=product.price;
-                clone.querySelector("img").src="https://kea-alt-del.dk/t5/site/imgs/small/" + product.image + "-sm.jpg";
+                clone.querySelector("img").src=imgLink+"small/" + product.image + "-sm.jpg";
                 clone.querySelector("img").alt=product.image;
                 if(product.vegetarian == false){
                     clone.querySelector(".vegetarian").remove()
@@ -83,5 +85,7 @@
                     article.appendChild(message)
                 }
                 section.appendChild(clone);
-
             }
+
+            //start generating the output by fetching the categories
+            fetch(catLink).then(e=>e.json()).then(data=>createCatSections(data));
